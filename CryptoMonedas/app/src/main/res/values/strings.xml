@@ -1,0 +1,24 @@
+<resources>
+
+    <string name="banner_ad_unit_id">ca-app-pub-5879820896125814/7129186536</string>
+
+
+    <string name="app_name">CryptoCoins</string>
+    <string name="calculator">CALCULATOR</string>
+    <string name="buy">BUY</string>
+    <string name="sell">SELL</string>
+    <string name="amount">AMOUNT</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="now">NOW</string>
+    <string name="incomplete">INCOMPLETE</string>
+    <string name="favorite">FAVORITE</string>
+    <string name="trackmn">TRACK MN</string>
+    <string name="wallet">WALLET ADDRESS</string>
+    <string name="api">Select explorer Api to track</string>
+    <string name="favourites">FAVOURITES</string>
+    <string name="allcoins">ALL COINS</string>
+    <string name="updating">Updating data ...</string>
+    <string name="updated">Data Updated, Ready</string>
+    <string name="mncount">MasterNode:</string>
+    <string name="mnValue">Masternode Value:</string>
+</resources>
