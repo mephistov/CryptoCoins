@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -65,6 +66,15 @@ public class AllCoins extends Activity {
             public void onClick(View view) {
                 coins = ((Aplicacion) getApplication()).getDB().getAllCoins();
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+
+        listCoins.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ((Aplicacion)getApplication()).coinShow = coins.get(i);
+                startActivity(new Intent(getApplicationContext(),CoinInfo.class));
             }
         });
 

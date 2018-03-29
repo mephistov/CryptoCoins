@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.nicolasbahamon.cryptocoins.models.Exchange;
 import com.nicolasbahamon.cryptocoins.models.TrackingN;
+import com.nicolasbahamon.cryptocoins.network.HttpClient;
 
 import java.util.ArrayList;
 
@@ -29,11 +33,19 @@ public class TrackMasterNodes extends Activity {
     private ArrayList<TrackingN> arrayTracking;
     private ListView listtrack;
     private TrackAdapter adapter;
+    private HttpClient httpCLient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_master_nodes);
+
+        //adds
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        httpCLient = new HttpClient(getApplicationContext(), ((Aplicacion) getApplication()));
 
         arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
         listtrack =(ListView)findViewById(R.id.listTracking);
@@ -43,6 +55,40 @@ public class TrackMasterNodes extends Activity {
 
     }
 
+    // ******** background task ******
+
+    private class RedeemTask extends AsyncTask<Void, Void, Void> {
+
+        private String respuestas;
+
+        @Override
+        protected void onPreExecute() {
+
+
+        }
+
+        protected Void doInBackground(Void... bounds) {
+
+
+            respuestas = httpCLient.HttpConnectGet("192.168.1.101/cryptocoins/explorer.json",null);//190.26.134.117/cryptocoins/explorer.json
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+
+
+
+        }
+
+
+    }
+
+
+
+//---------------------------------- Adapter --------------------------------
 
     public class TrackAdapter extends BaseAdapter {
 
