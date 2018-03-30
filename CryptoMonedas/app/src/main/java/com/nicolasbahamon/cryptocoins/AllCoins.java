@@ -141,12 +141,12 @@ public class AllCoins extends Activity {
 
             priveUsd.setText("$ "+((Aplicacion) getApplication()).numberFormat(coins.get(position).price));
 
-            if(coins.get(position).porcentage_day<0){
+            if(coins.get(position).porcentage_hour<0){
                 change1h.setTextColor(Color.RED);
             }else{
                 change1h.setTextColor(Color.GREEN);
             }
-            if(coins.get(position).porcentage_hour<0){
+            if(coins.get(position).porcentage_day<0){
                 change24h.setTextColor(Color.RED);
             }else{
                 change24h.setTextColor(Color.GREEN);

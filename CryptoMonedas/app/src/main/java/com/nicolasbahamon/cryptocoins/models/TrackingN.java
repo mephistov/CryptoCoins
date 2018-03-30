@@ -7,5 +7,12 @@ package com.nicolasbahamon.cryptocoins.models;
 public class TrackingN {
     public String shortname;
     public String name;
+    public String extra_name;
     public long id;
+    public String explorer;
+    public String address;
+    public double balance;
+    public int firstTime;
+    public double mncost;
+    public double usd_cost;
 }

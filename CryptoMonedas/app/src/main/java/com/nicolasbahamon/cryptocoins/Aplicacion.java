@@ -213,7 +213,7 @@ public class Aplicacion extends Application {
                         values.put("shortname", shortname);
                         values.put("name_exchange", "CryptoBridge");
                         values.put("has_order_book", 0);
-                        Coin coin = getDB().existCoin(shortname);
+                        Coin coin = getDB().getCoinByName(shortname);
                         if (coin == null) {
                             values.put("id_coin", 0);
                             values.put("volume", 0);
@@ -269,7 +269,7 @@ public class Aplicacion extends Application {
                             values.put("name_exchange", "SouthXchange");
                             values.put("has_order_book", 1);
 
-                            Coin coin = getDB().existCoin(shortname);
+                            Coin coin = getDB().getCoinByName(shortname);
 
                             if (coin == null) {
                                 values.put("id_coin", 0);
@@ -331,7 +331,7 @@ public class Aplicacion extends Application {
                             values.put("name_exchange", "CoinExchangeIO");
                             values.put("has_order_book", 1);
 
-                            Coin coin = getDB().existCoin(alcoin.getString("MarketAssetCode"));
+                            Coin coin = getDB().getCoinByName(alcoin.getString("MarketAssetCode"));
 
                             if (coin == null) {
                                 values.put("id_coin", 0);
@@ -413,7 +413,7 @@ public class Aplicacion extends Application {
                                 Log.e("moneda","stake");
                             }
 
-                            Coin coin = getDB().existCoin(shortname);
+                            Coin coin = getDB().getCoinByName(shortname);
 
                             if (coin == null) {
                                 values.put("id_coin", 0);
@@ -468,7 +468,7 @@ public class Aplicacion extends Application {
                             values.put("name_exchange", "StockExchange");
                             values.put("has_order_book", 0);
 
-                            Coin coin = getDB().existCoin(shortname);
+                            Coin coin = getDB().getCoinByName(shortname);
 
                             if (coin == null) {
                                 values.put("id_coin", 0);

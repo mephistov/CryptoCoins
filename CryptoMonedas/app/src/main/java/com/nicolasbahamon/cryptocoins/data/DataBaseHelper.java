@@ -74,6 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "id_coin INTEGER," +
             "shortname TEXT," +
             "name_coin TEXT," +
+            "extra_name TEXT," +
             "ip_node TEXT," +
             "explorer TEXT," +
             "wallet TEXT," +
@@ -112,7 +113,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void procesInformation(ContentValues values){
 
-        if(existCoin((String) values.get("shortname"))== null){
+        if(getCoinByName((String) values.get("shortname"))== null){
             insertActivity(values);
             Log.e("Insert",values.getAsString("shortname"));
         }else{
@@ -216,12 +217,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     // *********************** GET ***********************
 
+
     public ArrayList<TrackingN> getAllTracking() {
 
         ArrayList<TrackingN> list = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        String query="SELECT * FROM track_nodes ";
+        String query="SELECT * FROM track_nodes ORDER BY name_coin";
         Cursor c = db.rawQuery(query, null);
         if (c.moveToFirst()) {
             do {
@@ -235,7 +237,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Coin existCoin(String name){
+    public Coin getCoinByName(String name){
        Coin moneda = null;
 
         SQLiteDatabase db = getReadableDatabase();
@@ -280,6 +282,41 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     // *********************** UPDATE ***********************
+
+    public int updateTrackingInfo(ContentValues values) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String selection = "id = ?";
+        String name = values.getAsString("id");
+        String[] selectionArgs = { name };
+
+        int val =  db.update(
+                "track_nodes",
+                values,
+                selection,
+                selectionArgs);
+
+       // TrackingN quecarajos = getTackById(values.getAsString("id"));
+
+        return val;
+    }
+
+    public TrackingN getTackById(String id){
+        ArrayList<TrackingN> list = new ArrayList<>();
+        TrackingN exchan = null;
+        SQLiteDatabase db = getReadableDatabase();
+        String query="SELECT * FROM track_nodes WHERE id ="+id;
+        Cursor c = db.rawQuery(query, null);
+        if (c.moveToFirst()) {
+            do {
+                exchan = returnTrackingDB(c);
+                list.add(exchan);
+            }while(c.moveToNext());
+        }
+        c.close();
+
+        return exchan;
+    }
 
     public void updateCoinInfo(ContentValues values){
         SQLiteDatabase db = getReadableDatabase();
@@ -337,7 +374,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         exchange.name = c.getString(c.getColumnIndex("name_coin"));
         exchange.id = c.getLong(c.getColumnIndex("id"));
-
+        exchange.explorer = c.getString(c.getColumnIndex("explorer"));
+        exchange.shortname = c.getString(c.getColumnIndex("shortname"));
+        exchange.address = c.getString(c.getColumnIndex("wallet"));
+        exchange.balance = c.getDouble(c.getColumnIndex("current_amount"));
+        exchange.extra_name = c.getString(c.getColumnIndex("extra_name"));
 
         return exchange;
     }
@@ -501,6 +542,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return allCoins;
 
     }
+
+    public void deleteTrack(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        String selection =  "id = ?";
+        String[] selectionArgs = { id+"" };
+        db.delete("track_nodes", selection, selectionArgs);
+    }
+
+
+
+
 
 
 
