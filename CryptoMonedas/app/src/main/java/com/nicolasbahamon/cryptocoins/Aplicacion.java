@@ -15,6 +15,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.nicolasbahamon.cryptocoins.models.Coin;
 import com.nicolasbahamon.cryptocoins.data.DataBaseHelper;
+import com.nicolasbahamon.cryptocoins.models.TrackingN;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +41,7 @@ public class Aplicacion extends Application {
     public DataBaseHelper db;
     public Coin coinShow = null;
     public int btcValue = 9000;
-
-
+    public TrackingN coinEdit;
 
 
     @Override

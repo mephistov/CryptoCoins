@@ -635,6 +635,7 @@ public class MasterNodes extends Activity {
                         valuesT.put("name_coin",coins.get(position).name);
                         valuesT.put("shortname",coins.get(position).shortname);
                         valuesT.put("coin_value",coins.get(position).price);
+                        valuesT.put("last_amount",0);
                         valuesT.put("node_cant_coins",coins.get(position).coins_node);
                         ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
                     }else{

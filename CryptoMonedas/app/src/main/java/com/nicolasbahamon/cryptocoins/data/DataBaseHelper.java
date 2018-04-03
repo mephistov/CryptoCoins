@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     //database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     //database name
     private static final String DATABASE_NAME = "CryptoMoney.db";
     //table names
@@ -79,6 +79,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "explorer TEXT," +
             "wallet TEXT," +
             "current_amount REAL," +
+            "last_amount REAL," +
             "coin_value REAL," +
             "mn_cost REAL," +
             "usd_cost REAL," +
@@ -104,6 +105,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if(newVersion > 1){
+            String aquery="ALTER TABLE track_nodes ADD COLUMN 'last_amount' REAL;";
+            db.execSQL(aquery);
+        }
 
     }
 
@@ -340,6 +345,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         coin.name = c.getString(c.getColumnIndex("name"));
         coin.logo = c.getString(c.getColumnIndex("logo"));
         coin.price = c.getDouble(c.getColumnIndex("price"));
+        coin.price_btc = c.getDouble(c.getColumnIndex("price_btc"));
         coin.shortname = c.getString(c.getColumnIndex("shortname"));
         coin.roi_years = c.getDouble(c.getColumnIndex("roi_years"));
         coin.roi = c.getInt(c.getColumnIndex("roi"));
@@ -379,6 +385,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         exchange.address = c.getString(c.getColumnIndex("wallet"));
         exchange.balance = c.getDouble(c.getColumnIndex("current_amount"));
         exchange.extra_name = c.getString(c.getColumnIndex("extra_name"));
+        exchange.mncost = c.getDouble(c.getColumnIndex("mn_cost"));
+        exchange.lastBalance = c.getDouble(c.getColumnIndex("last_amount"));
 
         return exchange;
     }

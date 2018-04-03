@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
     private HttpClient httpCLient;
     private Button masternode,coins,calculator, trackNodes;
     private RelativeLayout loadingFirst;
-    private TextView updating,textViewBTCVALUE;
+    private TextView updating,textViewBTCVALUE, versionTxt;
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private AdView mAdView;
@@ -50,6 +51,8 @@ public class MainActivity extends Activity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Main");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
+        String version = BuildConfig.VERSION_NAME;
+
         //adds
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -60,7 +63,9 @@ public class MainActivity extends Activity {
         loadingFirst =(RelativeLayout)findViewById(R.id.loadingFirst);
         updating = (TextView)findViewById(R.id.textView57);
         textViewBTCVALUE = (TextView)findViewById(R.id.textViewBTCVALUE);
+        versionTxt = (TextView)findViewById(R.id.textView49);
 
+        versionTxt.setText("Ver: "+version);
 
         textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
 
@@ -72,6 +77,7 @@ public class MainActivity extends Activity {
 
         masternode = (Button)findViewById(R.id.button);
         trackNodes = (Button)findViewById(R.id.button4);
+        calculator = (Button)findViewById(R.id.button3);
         Button allcoinfInfo = (Button)findViewById(R.id.button2);
 
 
@@ -91,6 +97,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),AllCoins.class));
+            }
+        });
+        calculator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Soon",Toast.LENGTH_SHORT).show();
             }
         });
 

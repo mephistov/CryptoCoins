@@ -21,4 +21,15 @@
     <string name="updated">Data Updated, Ready</string>
     <string name="mncount">MasterNode:</string>
     <string name="mnValue">Masternode Value:</string>
+    <string name="waletadres">WALLET ADDRESS</string>
+    <string name="wallet_api">WALLET API</string>
+    <string name="mncost">How much coust your MN?</string>
+    <string name="btc_currentTime">BTC at current time</string>
+    <string name="coins">"Coins :  "</string>
+    <string name="mon">$</string>
+    <string name="lastChange">Last change :</string>
+    <string name="mncoins">MN coins :</string>
+    <string name="earned">Earned :</string>
+    <string name="costmn">Cost MN :</string>
+    <string name="overview">Overview</string>
 </resources>

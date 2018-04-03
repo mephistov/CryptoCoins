@@ -15,4 +15,5 @@ public class TrackingN {
     public int firstTime;
     public double mncost;
     public double usd_cost;
+    public double lastBalance;
 }
