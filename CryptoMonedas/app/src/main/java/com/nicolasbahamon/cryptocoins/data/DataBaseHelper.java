@@ -118,10 +118,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void procesInformation(ContentValues values){
 
-        if(getCoinByName((String) values.get("shortname"))== null){
+        Coin tempC = getCoinByName((String) values.get("shortname"));
+        if(tempC== null){
             insertActivity(values);
             Log.e("Insert",values.getAsString("shortname"));
         }else{
+            values.put("oldPrice",tempC.price);
             updateCoinInfo(values);
             Log.e("update",values.getAsString("shortname"));
         }
@@ -345,6 +347,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         coin.name = c.getString(c.getColumnIndex("name"));
         coin.logo = c.getString(c.getColumnIndex("logo"));
         coin.price = c.getDouble(c.getColumnIndex("price"));
+        coin.oldPrice = c.getDouble(c.getColumnIndex("oldPrice"));
         coin.price_btc = c.getDouble(c.getColumnIndex("price_btc"));
         coin.shortname = c.getString(c.getColumnIndex("shortname"));
         coin.roi_years = c.getDouble(c.getColumnIndex("roi_years"));

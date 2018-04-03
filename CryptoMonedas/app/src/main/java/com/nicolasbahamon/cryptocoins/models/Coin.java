@@ -24,4 +24,5 @@ public class Coin {
     public double porcentage_hour;
     public double porcentage_day;
     public double porcentage_week;
+    public double oldPrice;
 }

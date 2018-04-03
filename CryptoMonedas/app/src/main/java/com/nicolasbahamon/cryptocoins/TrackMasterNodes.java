@@ -62,6 +62,12 @@ public class TrackMasterNodes extends Activity {
     private TrackAdapter adapter;
     private HttpClient httpCLient;
     private ProgressBar loading1;
+    private TextView infoAlert;
+    private RelativeLayout showAelrt;
+    private Button acept,cancel;
+    private int opcSelected = 0;
+    private Coin monedaSelected;
+    private int positionSelected=0;
 
     private int globalPositionSelected = 0;
 
@@ -85,7 +91,13 @@ public class TrackMasterNodes extends Activity {
         loading1 = (ProgressBar)findViewById(R.id.progressBar5);
         arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
         listtrack =(ListView)findViewById(R.id.listTracking);
+        showAelrt = (RelativeLayout)findViewById(R.id.alertInfo);
+        infoAlert = (TextView)findViewById(R.id.textView73);
+        acept = (Button)findViewById(R.id.button13);
+        cancel = (Button)findViewById(R.id.button14);
+
         adapter = new TrackAdapter(getApplicationContext());
+
 
         listtrack.setAdapter(adapter);
 
@@ -93,7 +105,35 @@ public class TrackMasterNodes extends Activity {
 
         new RedeemTask().execute();
 
+        acept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {//addmore
+                if(opcSelected == 1){
+                    ContentValues valuesT = new ContentValues();
+                    valuesT.put("id_coin",monedaSelected.idCoin);
+                    valuesT.put("name_coin",monedaSelected.name);
+                    valuesT.put("shortname",monedaSelected.shortname);
+                    valuesT.put("coin_value",monedaSelected.price);
+                    valuesT.put("last_amount",0);
+                    valuesT.put("node_cant_coins",monedaSelected.coins_node);
+                    ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
+                    arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
+                    adapter.notifyDataSetChanged();
+                }else if(opcSelected == 2){//delet
 
+                    ((Aplicacion)getApplication()).getDB().deleteTrack(arrayTracking.get(positionSelected).id);
+                    arrayTracking.remove(positionSelected);
+                    adapter.notifyDataSetChanged();
+                }
+                showAelrt.setVisibility(View.GONE);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAelrt.setVisibility(View.GONE);
+            }
+        });
 
 
     }
@@ -275,6 +315,9 @@ public class TrackMasterNodes extends Activity {
             Button settings = (Button)grid.findViewById(R.id.button12);
             TextView overview = (TextView)grid.findViewById(R.id.mncost_2);
             TextView recovered = (TextView)grid.findViewById(R.id.textView52);
+            Button addMore = (Button)grid.findViewById(R.id.button8);
+            Button delete = (Button)grid.findViewById(R.id.button9);
+
             /*final EditText explorerUrl = (EditText)grid.findViewById(R.id.editText3);
             Button getQr = (Button)grid.findViewById(R.id.button6);
             final EditText addressWallet = (EditText)grid.findViewById(R.id.editText2);
@@ -285,8 +328,7 @@ public class TrackMasterNodes extends Activity {
             TextView coinbtcText = (TextView)grid.findViewById(R.id.textView48);
 
 
-            Button addMore = (Button)grid.findViewById(R.id.button8);
-            Button delete = (Button)grid.findViewById(R.id.button9);
+
             final EditText newname = (EditText)grid.findViewById(R.id.editText6);
 
 
@@ -361,6 +403,26 @@ public class TrackMasterNodes extends Activity {
                 recovered.setText( ((Aplicacion)getApplication()).numberFormat(porcent) + "%");
             }
 
+            addMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    monedaSelected = moneda;
+                    opcSelected = 1;
+                    infoAlert.setText(R.string.addinfo);
+                    showAelrt.setVisibility(View.VISIBLE);
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                      positionSelected = position;
+                      opcSelected = 2;
+                      infoAlert.setText(R.string.deleteInfo);
+                      showAelrt.setVisibility(View.VISIBLE);
+                  }
+             });
+
        /*
             coinbtcText.setText("BTC: "+moneda.price_btc);
             mNText.setText("MN: "+moneda.coins_node);
@@ -412,49 +474,11 @@ public class TrackMasterNodes extends Activity {
             saveData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ContentValues values = new ContentValues();
-                    values.put("explorer",explorerUrl.getText().toString());
-                    values.put("wallet",addressWallet.getText().toString());
-                    values.put("mn_cost",arrayTracking.get(position).mncost);
-                    values.put("usd_cost",arrayTracking.get(position).usd_cost);
-                    values.put("current_amount",arrayTracking.get(position).balance);
-                    values.put("id",arrayTracking.get(position).id);
-                    values.put("extra_name",newname.getText().toString());
-                    int resp = ((Aplicacion)getApplication()).getDB().updateTrackingInfo(values);
-                    if(resp < 0){
-                        Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Save OK",Toast.LENGTH_SHORT).show();
-                    }
+                    monedaSelected = coin;
 
                 }
             });
-            addMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    ContentValues valuesT = new ContentValues();
-                    valuesT.put("id_coin",moneda.idCoin);
-                    valuesT.put("name_coin",moneda.name);
-                    valuesT.put("shortname",moneda.shortname);
-                    valuesT.put("coin_value",moneda.price);
-                    valuesT.put("last_amount",0);
-                    valuesT.put("node_cant_coins",moneda.coins_node);
-                    ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
-                    arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
-                    adapter.notifyDataSetChanged();
-                }
-            });
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ContentValues values = new ContentValues();
-                    values.put("track_node",0);
-                    ((Aplicacion)getApplication()).getDB().updateCoinInfo(values);
-                    ((Aplicacion)getApplication()).getDB().deleteTrack(arrayTracking.get(position).id);
-                    arrayTracking.remove(position);
-                    adapter.notifyDataSetChanged();
-                }
             });*/
 
 

@@ -32,4 +32,7 @@
     <string name="earned">Earned :</string>
     <string name="costmn">Cost MN :</string>
     <string name="overview">Overview</string>
+    <string name="genericTitle">ALERT</string>
+    <string name="addinfo">Are you sure to add new tracking?</string>
+    <string name="deleteInfo">Are you sure to delete this tracking?</string>
 </resources>

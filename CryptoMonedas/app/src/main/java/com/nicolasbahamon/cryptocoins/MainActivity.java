@@ -355,8 +355,10 @@ public class MainActivity extends Activity {
 
                            int pos = value.indexOf("img src=\"");
                            int posend = value.indexOf("png");
-                           String temp = value.substring(pos + 9, posend + 3);
-                           values.put("logo", "https://masternodes.online/" + temp);
+                           if(posend > 0) {
+                               String temp = value.substring(pos + 9, posend + 3);
+                               values.put("logo", "https://masternodes.online/" + temp);
+                           }
                            values.put("has_node", 1);
                        } else if (j == 2) { //name
                            int pos = value.indexOf("(");

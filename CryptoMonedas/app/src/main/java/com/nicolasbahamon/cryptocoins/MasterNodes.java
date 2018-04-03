@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +83,10 @@ public class MasterNodes extends Activity {
                 favSelected = false;
                 listaFavoritos.setVisibility(View.GONE);
                 listaMonedas.setVisibility(View.VISIBLE);
+
+                allData.setBackgroundColor(Color.DKGRAY);
+                favData.setBackgroundColor(Color.WHITE);
+
             }
         });
         favData.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +99,8 @@ public class MasterNodes extends Activity {
                 adapterFav = new CoinsFavAdapter(getApplicationContext());
                 listaFavoritos.setAdapter(adapterFav);
 
-
+                favData.setBackgroundColor(Color.DKGRAY);
+                allData.setBackgroundColor(Color.WHITE);
             }
         });
 
