@@ -19,8 +19,7 @@
             android:id="@+id/allzone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_light">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/textView53"
@@ -34,8 +33,7 @@
             android:id="@+id/favzone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/holo_blue_light">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/textView54"

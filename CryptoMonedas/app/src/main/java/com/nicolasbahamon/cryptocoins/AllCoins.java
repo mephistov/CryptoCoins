@@ -33,6 +33,9 @@ public class AllCoins extends Activity {
     private  CoinsAdapter adapter;
     private ListView listCoins;
     private  RelativeLayout allcoinsZone, favouriteZone;
+    private TextView textallcoin, textfavorites;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class AllCoins extends Activity {
 
         allcoinsZone = (RelativeLayout)findViewById(R.id.allzone);
         favouriteZone = (RelativeLayout)findViewById(R.id.favzone);
+        textallcoin =(TextView)findViewById(R.id.textView53);
+        textfavorites =(TextView)findViewById(R.id.textView54);
 
         coins = ((Aplicacion) getApplication()).getDB().getAllCoins();
         listCoins = (ListView)findViewById(R.id.listCoinhs);
@@ -53,12 +58,22 @@ public class AllCoins extends Activity {
 
         listCoins.setAdapter(adapter);
 
+        favouriteZone.setBackgroundColor(Color.WHITE);
+        allcoinsZone.setBackgroundColor(Color.DKGRAY);
+        textallcoin.setTextColor(Color.WHITE);
+        textfavorites.setTextColor(Color.BLACK);
+
         //----------------------------------------
         favouriteZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 coins = ((Aplicacion) getApplication()).getDB().sortGeneric();
                 adapter.notifyDataSetChanged();
+
+                favouriteZone.setBackgroundColor(Color.DKGRAY);
+                allcoinsZone.setBackgroundColor(Color.WHITE);
+                textallcoin.setTextColor(Color.BLACK);
+                textfavorites.setTextColor(Color.WHITE);
             }
         });
         allcoinsZone.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +81,11 @@ public class AllCoins extends Activity {
             public void onClick(View view) {
                 coins = ((Aplicacion) getApplication()).getDB().getAllCoins();
                 adapter.notifyDataSetChanged();
+
+                favouriteZone.setBackgroundColor(Color.WHITE);
+                allcoinsZone.setBackgroundColor(Color.DKGRAY);
+                textallcoin.setTextColor(Color.WHITE);
+                textfavorites.setTextColor(Color.BLACK);
             }
         });
 

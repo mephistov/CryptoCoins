@@ -44,6 +44,7 @@ public class MasterNodes extends Activity {
 
     private TextView nameC,value,coinMN,nodes, roiD,roiY, mnW, coinD, dayUSD;
     private boolean flag1,flag2,flag3,flag4,flag5,flag6,flag7,flag8,flag9;
+    private TextView textallcoin, textfavorites;
 
     private boolean favSelected = false;
 
@@ -73,6 +74,10 @@ public class MasterNodes extends Activity {
 
         allData = (RelativeLayout)findViewById(R.id.allLayout);
         favData = (RelativeLayout)findViewById(R.id.favLayout);
+        textallcoin =(TextView)findViewById(R.id.textView40);
+        textfavorites =(TextView)findViewById(R.id.textView43);
+
+        allData.setBackgroundColor(Color.DKGRAY);
 
         favCoins = ((Aplicacion) getApplication()).getDB().sortGenericMn("roi_years", 0, true);
         adapterFav = new CoinsFavAdapter(getApplicationContext());
@@ -86,6 +91,8 @@ public class MasterNodes extends Activity {
 
                 allData.setBackgroundColor(Color.DKGRAY);
                 favData.setBackgroundColor(Color.WHITE);
+                textallcoin.setTextColor(Color.WHITE);
+                textfavorites.setTextColor(Color.BLACK);
 
             }
         });
@@ -101,6 +108,8 @@ public class MasterNodes extends Activity {
 
                 favData.setBackgroundColor(Color.DKGRAY);
                 allData.setBackgroundColor(Color.WHITE);
+                textallcoin.setTextColor(Color.BLACK);
+                textfavorites.setTextColor(Color.WHITE);
             }
         });
 

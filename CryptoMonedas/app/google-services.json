@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "327494768333",
+    "firebase_url": "https://cryptomonedas-265d5.firebaseio.com",
+    "project_id": "cryptomonedas-265d5",
+    "storage_bucket": "cryptomonedas-265d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327494768333:android:fbcb12a20bfc72b3",
+        "android_client_info": {
+          "package_name": "com.nicolasbahamon.cryptocoins"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327494768333-02fjaeo194fc12t60pb93qgkd35c5jrl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nicolasbahamon.cryptocoins",
+            "certificate_hash": "b34b5267219ec9d0323e3caa4ae9b61d6a6b0e41"
+          }
+        },
+        {
+          "client_id": "327494768333-3ngp16v78kg7vl0tfdtr76l5ui6fi1uf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb4GY414SqqvPZqmaYEDkmeq_wwM0WgB4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327494768333-3ngp16v78kg7vl0tfdtr76l5ui6fi1uf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

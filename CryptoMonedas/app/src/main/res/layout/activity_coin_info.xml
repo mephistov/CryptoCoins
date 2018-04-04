@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/imageView2"
-        android:background="#ff00ff">
+        android:layout_toEndOf="@+id/imageView2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,8 +80,7 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/coinInfo"
-        android:layout_toEndOf="@+id/imageView2"
-        android:background="#aaddff">
+        android:layout_toEndOf="@+id/imageView2">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,9 +141,8 @@
     <RelativeLayout
         android:id="@+id/addinfo"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/extrainfocoin"
-        android:background="@android:color/holo_orange_light">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/extrainfocoin">
 
     </RelativeLayout>
 
