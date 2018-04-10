@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +32,10 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private HttpClient httpCLient;
-    private Button masternode,coins,calculator, trackNodes;
+    private Button masternode,coins,calculator, trackNodes, settings, closeSettings, polucy, contactus;
     private RelativeLayout loadingFirst;
     private TextView updating,textViewBTCVALUE, versionTxt;
+    private LinearLayout menuZone;
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private AdView mAdView;
@@ -64,6 +66,40 @@ public class MainActivity extends Activity {
         updating = (TextView)findViewById(R.id.textView57);
         textViewBTCVALUE = (TextView)findViewById(R.id.textViewBTCVALUE);
         versionTxt = (TextView)findViewById(R.id.textView49);
+
+        settings = (Button)findViewById(R.id.button18);
+        closeSettings = (Button)findViewById(R.id.button15);
+        menuZone = (LinearLayout)findViewById(R.id.menuopc);
+        polucy = (Button)findViewById(R.id.button16);
+        contactus = (Button)findViewById(R.id.button17);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuZone.setVisibility(View.VISIBLE);
+            }
+        });
+        closeSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuZone.setVisibility(View.GONE);
+            }
+        });
+        polucy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Aplicacion) getApplication()).loadUrl = "http://deskoff.com/crypto/privacy_policy.html";
+                startActivity(new Intent(getApplicationContext(),ShowInfo.class));
+            }
+        });
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((Aplicacion) getApplication()).loadUrl = "https://goo.gl/forms/qzLcoqE5C3pp32bY2";
+                startActivity(new Intent(getApplicationContext(),ShowInfo.class));
+            }
+        });
+
 
         versionTxt.setText("Ver: "+version);
 
@@ -102,7 +138,7 @@ public class MainActivity extends Activity {
         calculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Soon",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),FinancialResume.class));
             }
         });
 
@@ -355,10 +391,10 @@ public class MainActivity extends Activity {
 
                            int pos = value.indexOf("img src=\"");
                            int posend = value.indexOf("png");
-                           if(posend > 0) {
-                               String temp = value.substring(pos + 9, posend + 3);
-                               values.put("logo", "https://masternodes.online/" + temp);
-                           }
+                           //if(posend > 0) {
+                               //String temp = value.substring(pos + 9, posend + 3);
+                             //  values.put("logo", "https://masternodes.online/" + temp);
+                          // }
                            values.put("has_node", 1);
                        } else if (j == 2) { //name
                            int pos = value.indexOf("(");
@@ -368,6 +404,7 @@ public class MainActivity extends Activity {
                            values.put("shortname", temp);
                            values.put("rank", 999999);
                            values.put("name", nameD);
+                           values.put("logo", "https://masternodes.online/coin_image/" + temp+".png");
 
                        } else if (j == 3) {
                            value = value.replace("$", "");

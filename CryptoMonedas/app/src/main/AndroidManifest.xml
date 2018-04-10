@@ -3,9 +3,6 @@
     package="com.nicolasbahamon.cryptocoins">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -14,9 +11,9 @@
     <application
         android:name=".Aplicacion"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_crypto"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_crypto"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -36,7 +33,9 @@
         <activity android:name=".CoinInfo" />
         <activity android:name=".TrackMasterNodes" />
         <activity android:name=".AllCoins" />
-        <activity android:name=".SettingsCoin"></activity>
+        <activity android:name=".SettingsCoin" />
+        <activity android:name=".ShowInfo" />
+        <activity android:name=".FinancialResume"></activity>
     </application>
 
 </manifest>

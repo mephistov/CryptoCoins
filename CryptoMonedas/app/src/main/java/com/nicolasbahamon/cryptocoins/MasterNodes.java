@@ -764,11 +764,6 @@ public class MasterNodes extends Activity {
 
             Glide.with(getApplicationContext())
                     .load(favCoins.get(position).logo)
-                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
-                    //.placeholder(R.mipmap.ic_launcher_round)
-                    //.dontAnimate()
-                    //.override(200, 200)
-                    //.centerCrop()
                     .into(logo);
 
 

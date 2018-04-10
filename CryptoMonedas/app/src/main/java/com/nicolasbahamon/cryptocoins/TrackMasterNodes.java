@@ -142,6 +142,7 @@ public class TrackMasterNodes extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
         adapter.notifyDataSetChanged();
     }
 

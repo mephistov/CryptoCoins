@@ -35,4 +35,8 @@
     <string name="genericTitle">ALERT</string>
     <string name="addinfo">Are you sure to add new tracking?</string>
     <string name="deleteInfo">Are you sure to delete this tracking?</string>
+    <string name="menu">MENU</string>
+    <string name="privactpolicy">Privacy policy</string>
+    <string name="contacus">Contact us</string>
+    <string name="fianncuialR">Financial Resume</string>
 </resources>

@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nicolasbahamon.cryptocoins.models.Exchange;
@@ -118,9 +119,13 @@ public class CoinInfo extends Activity {
             @Override
             public void onClick(View view) {
                 //TODO llamar servicios actualizar excahnges
-                candownloadBook = true;
-                amount = Double.parseDouble(amountCal.getText().toString());
-                adapter.notifyDataSetChanged();
+                try {
+                    candownloadBook = true;
+                    amount = Double.parseDouble(amountCal.getText().toString());
+                    adapter.notifyDataSetChanged();
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(),"No valid number",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -242,7 +247,7 @@ public class CoinInfo extends Activity {
                         else if(arrayExchanges.get(position).name.equals("CryptoBridge")){
 
                             buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * ((Aplicacion) getApplication()).btcValue * amount));
-                            buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask + amount));
+                            buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * amount));
 
                             sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * ((Aplicacion) getApplication()).btcValue * amount));
                             sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * amount));
@@ -257,88 +262,91 @@ public class CoinInfo extends Activity {
                     (new Thread() {
                         public void run() {//llamar rewards cada vez que entra
 
-                            long id = arrayExchanges.get(position).id_exchange;
-                            final String apiBuySell = ((Aplicacion) getApplication()).getDB().getExchangeApi(id);
-                            if (arrayExchanges.get(position).name.equals("Graviex")) {
-                                String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname + "btc";
-                                String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
-                                if (!amountCal.getText().toString().equals("")) {
-                                    amount = Double.parseDouble(amountCal.getText().toString());
-                                    arrayExchanges.get(position).getBookSellExchangeGraviex(resp, amount);
+                            if(!amountCal.getText().toString().equals("")) {
+                                try {
+                                    long id = arrayExchanges.get(position).id_exchange;
+                                    final String apiBuySell = ((Aplicacion) getApplication()).getDB().getExchangeApi(id);
+                                    if (arrayExchanges.get(position).name.equals("Graviex")) {
+                                        String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname + "btc";
+                                        String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
+                                        if (!amountCal.getText().toString().equals("")) {
+                                            amount = Double.parseDouble(amountCal.getText().toString());
+                                            arrayExchanges.get(position).getBookSellExchangeGraviex(resp, amount);
+                                        }
+                                    } else if (arrayExchanges.get(position).name.equals("SouthXchange")) {
+                                        String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname + "/BTC";
+                                        String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
+                                        amount = Double.parseDouble(amountCal.getText().toString());
+                                        arrayExchanges.get(position).getBookSellExchangeSouthXchange(resp, amount);
+                                    } else if (arrayExchanges.get(position).name.equals("CoinExchangeIO")) {
+                                        String urlApi = apiBuySell + arrayExchanges.get(position).coinexchangeio_id;
+                                        String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
+                                        amount = Double.parseDouble(amountCal.getText().toString());
+                                        arrayExchanges.get(position).getBookSellExchangeCoinExchangeIO(resp, amount);
+                                    } else if (arrayExchanges.get(position).name.equals("TradeSatoshi")) {
+                                        String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname + "_BTC";
+                                        String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
+                                        amount = Double.parseDouble(amountCal.getText().toString());
+                                        arrayExchanges.get(position).getBookSellExchangeTradeSatoshi(resp, amount);
+                                    }
+
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            load.setVisibility(View.GONE);
+                                            arrayExchanges.get(position).allreadyDownload = true;
+                                            buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).buyprice * ((Aplicacion) getApplication()).btcValue));
+                                            buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).buyprice));
+
+                                            if (arrayExchanges.get(position).tofillamount < amount) {
+                                                bT.setText("BUY: (Inc)");
+                                            }
+                                            if (arrayExchanges.get(position).tofillamountS < amount) {
+                                                sT.setText("SELL: (Inc)");
+                                            }
+                                            sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).sellprice * ((Aplicacion) getApplication()).btcValue));
+                                            sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).sellprice));
+                                            if (arrayExchanges.get(position).buyprice > 0) {
+                                                now.setVisibility(View.VISIBLE);
+                                            } else {
+                                                now.setVisibility(View.INVISIBLE);
+                                            }
+
+                                            if (arrayExchanges.get(position).name.equals("StockExchange")) {
+
+                                                buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * ((Aplicacion) getApplication()).btcValue * amount));
+                                                buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * amount));
+
+                                                sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * ((Aplicacion) getApplication()).btcValue * amount));
+                                                sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * amount));
+
+                                                load.setVisibility(View.GONE);
+
+                                            } else if (arrayExchanges.get(position).name.equals("CryptoBridge")) {
+
+                                                buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * ((Aplicacion) getApplication()).btcValue * amount));
+                                                buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * amount));
+
+                                                sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * ((Aplicacion) getApplication()).btcValue * amount));
+                                                sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * amount));
+
+                                                load.setVisibility(View.GONE);
+
+                                            }
+                                        }
+                                    });
+                                }catch (Exception es){
+
                                 }
                             }
-                            else if(arrayExchanges.get(position).name.equals("SouthXchange")){
-                                String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname + "/BTC";
-                                String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
-                                amount = Double.parseDouble(amountCal.getText().toString());
-                                arrayExchanges.get(position).getBookSellExchangeSouthXchange(resp, amount);
-                            }
-                            else if(arrayExchanges.get(position).name.equals("CoinExchangeIO")){
-                                String urlApi = apiBuySell + arrayExchanges.get(position).coinexchangeio_id;
-                                String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
-                                amount = Double.parseDouble(amountCal.getText().toString());
-                                arrayExchanges.get(position).getBookSellExchangeCoinExchangeIO(resp, amount);
-                            }
-                            else if(arrayExchanges.get(position).name.equals("TradeSatoshi")){
-                                String urlApi = apiBuySell + ((Aplicacion) getApplication()).coinShow.shortname+"_BTC";
-                                String resp = httpCLient.HttpConnectGet(urlApi.toLowerCase(), null);
-                                amount = Double.parseDouble(amountCal.getText().toString());
-                                arrayExchanges.get(position).getBookSellExchangeTradeSatoshi(resp, amount);
-                            }
-
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    load.setVisibility(View.GONE);
-                                    arrayExchanges.get(position).allreadyDownload = true;
-                                    buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).buyprice * ((Aplicacion) getApplication()).btcValue));
-                                    buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).buyprice));
-
-                                    if (arrayExchanges.get(position).tofillamount < amount) {
-                                        bT.setText("BUY: (Inc)");
-                                    }
-                                    if (arrayExchanges.get(position).tofillamountS < amount) {
-                                        sT.setText("SELL: (Inc)");
-                                    }
-                                    sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).sellprice * ((Aplicacion) getApplication()).btcValue));
-                                    sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).sellprice));
-                                    if(arrayExchanges.get(position).buyprice > 0){
-                                        now.setVisibility(View.VISIBLE);
-                                    }else{
-                                        now.setVisibility(View.INVISIBLE);
-                                    }
-
-                                    if(arrayExchanges.get(position).name.equals("StockExchange")){
-
-                                        buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * ((Aplicacion) getApplication()).btcValue * amount));
-                                        buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * amount));
-
-                                        sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * ((Aplicacion) getApplication()).btcValue * amount));
-                                        sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * amount));
-
-                                        load.setVisibility(View.GONE);
-
-                                    }
-                                    else if(arrayExchanges.get(position).name.equals("CryptoBridge")){
-
-                                        buy1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask * ((Aplicacion) getApplication()).btcValue * amount));
-                                        buy2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).ask + amount));
-
-                                        sell1.setText("USD: $" + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * ((Aplicacion) getApplication()).btcValue * amount));
-                                        sell2.setText("BTC: " + ((Aplicacion) getApplication()).numberFormat(arrayExchanges.get(position).bid * amount));
-
-                                        load.setVisibility(View.GONE);
-
-                                    }
-                                }
-                            });
 
                         }
 
                     }).start();
 
                 }
+
             }
 
 

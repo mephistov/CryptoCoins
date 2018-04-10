@@ -42,6 +42,7 @@ public class Aplicacion extends Application {
     public Coin coinShow = null;
     public int btcValue = 9000;
     public TrackingN coinEdit;
+    public String loadUrl;
 
 
     @Override
