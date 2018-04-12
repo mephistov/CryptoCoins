@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     //database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     //database name
     private static final String DATABASE_NAME = "CryptoMoney.db";
     //table names
@@ -72,6 +72,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "id_xchange INTEGER)";
     private static final String CREATE_TABLE_4 = "CREATE TABLE track_nodes (id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "id_coin INTEGER," +
+            "order_show INTEGER," +
             "shortname TEXT," +
             "name_coin TEXT," +
             "extra_name TEXT," +
@@ -105,9 +106,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        if(newVersion > 1){
+        if(oldVersion == 1){
             String aquery="ALTER TABLE track_nodes ADD COLUMN 'last_amount' REAL;";
             db.execSQL(aquery);
+        }
+        if(oldVersion <= 2){
+            String aquery="ALTER TABLE track_nodes ADD COLUMN 'order_show' INTEGER;";
+            db.execSQL(aquery);
+            aquery="UPDATE track_nodes set order_show = id";
+            db.execSQL(aquery);
+            Log.e("Updated","db v3");
         }
 
     }

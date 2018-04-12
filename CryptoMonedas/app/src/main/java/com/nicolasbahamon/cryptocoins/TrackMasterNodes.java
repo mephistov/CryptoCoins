@@ -44,6 +44,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.nicolasbahamon.cryptocoins.models.Coin;
 import com.nicolasbahamon.cryptocoins.models.Exchange;
+import com.nicolasbahamon.cryptocoins.models.ResumeFinancial;
 import com.nicolasbahamon.cryptocoins.models.TrackingN;
 import com.nicolasbahamon.cryptocoins.network.HttpClient;
 
@@ -53,6 +54,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class TrackMasterNodes extends Activity {
@@ -355,6 +359,7 @@ public class TrackMasterNodes extends Activity {
                 lastValue.setText(" "+((Aplicacion)getApplication()).numberFormat(dif));
                 lastValue.setTextColor(Color.RED);
             }
+
 
             if(arrayTracking.get(position).address != null && !arrayTracking.get(position).address.equals("")) {
                if(arrayTracking.get(position).explorer != null && !arrayTracking.get(position).explorer.equals("")){
