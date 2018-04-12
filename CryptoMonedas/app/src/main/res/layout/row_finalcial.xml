@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@color/zxing_possible_result_points">
+    android:background="#c06f664f">
 
     <TextView
         android:id="@+id/textView82"
@@ -15,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,13 +29,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="35"
-        android:layout_height="35"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher"
@@ -43,14 +44,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="302dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="35dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView83"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView82">
 
         <LinearLayout
@@ -62,13 +63,16 @@
                 android:id="@+id/textView84"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:text="@string/invested" />
+                android:text="@string/invested"
+                android:textColor="@android:color/holo_orange_light"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView86"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,13 +85,82 @@
                 android:id="@+id/textView88"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:text="@string/earned" />
+                android:text="@string/earned"
+                android:textColor="@android:color/holo_orange_light"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView89"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView88_2"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="@string/wallets"
+                android:textColor="@android:color/holo_orange_light"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView89_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView88_4"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="@string/coins"
+                android:textColor="@android:color/holo_orange_light"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView89_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView88_3"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="@string/balance"
+                android:textColor="@android:color/holo_orange_light"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView89_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="TextView"
+                android:textColor="#ffffff" />
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

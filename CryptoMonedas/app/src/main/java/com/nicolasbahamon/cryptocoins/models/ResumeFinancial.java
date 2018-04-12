@@ -4,7 +4,7 @@ public class ResumeFinancial {
 
     public double invest;
     public double earned;
-    public int masternodes;
+    public int masternodes = 0;
     public double coins;
     public String name;
     public String shoert;

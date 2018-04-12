@@ -43,4 +43,5 @@
     <string name="dummy">--</string>
     <string name="invested">Invested:</string>
     <string name="balance">Global Balance :</string>
+    <string name="wallets">Wallets :</string>
 </resources>
