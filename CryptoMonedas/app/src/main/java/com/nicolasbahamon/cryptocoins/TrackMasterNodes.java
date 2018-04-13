@@ -224,7 +224,8 @@ public class TrackMasterNodes extends Activity {
 
             String UrlExpr =arrayTracking.get(listPosition).explorer+arrayTracking.get(listPosition).address;
             respuestas = httpCLient.HttpConnectGet(UrlExpr,null);
-            Log.e("balance",respuestas);
+
+           // Log.e("balance",respuestas);
 
             return null;
         }
