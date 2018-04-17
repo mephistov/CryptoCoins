@@ -238,7 +238,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<TrackingN> list = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        String query="SELECT * FROM track_nodes ORDER BY name_coin";
+        String query="SELECT * FROM track_nodes ORDER BY order_show asc";
         Cursor c = db.rawQuery(query, null);
         if (c.moveToFirst()) {
             do {

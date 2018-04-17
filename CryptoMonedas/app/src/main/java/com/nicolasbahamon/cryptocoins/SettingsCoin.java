@@ -62,11 +62,21 @@ public class SettingsCoin extends Activity {
             public void onClick(View view) {
                 ContentValues values = new ContentValues();
 
-                values.put("explorer",apiCoin.getText().toString());
+                String valExp = apiCoin.getText().toString();
+                int serhttp = valExp.indexOf("http");
+                int balanceExp = valExp.indexOf("ext/getbalance");
+                if(serhttp == -1)
+                    valExp = "http://"+valExp;
+                if(balanceExp == -1)
+                    valExp += "/ext/getbalance/";
+
+                values.put("explorer",valExp);
                 values.put("name_coin",name.getText().toString());
                 values.put("wallet",qrwallet.getText().toString());
                 values.put("mn_cost",costMn.getText().toString());
                 values.put("id",((Aplicacion)getApplication()).coinEdit.id);
+
+
 
                 ((Aplicacion)getApplication()).getDB().updateTrackingInfo(values);
             }

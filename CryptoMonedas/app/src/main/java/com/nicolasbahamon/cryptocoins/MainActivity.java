@@ -402,6 +402,8 @@ public class MainActivity extends Activity {
                            String temp = value.substring(pos + 1, posend);
                            String nameD = value.substring(0, pos - 1);
                            values.put("shortname", temp);
+                           if(temp.equals("SLC"))
+                               Log.e("aqui","");
                            values.put("rank", 999999);
                            values.put("name", nameD);
                            values.put("logo", "https://masternodes.online/coin_image/" + temp+".png");
@@ -413,9 +415,15 @@ public class MainActivity extends Activity {
                            values.put("price", vvd);
                        } else if (j == 7) {
                            value = value.replace("%", "");
-                           value = value.replace(",", ".");
+                           value = value.replace(",", "");
+                           //value = value.replace(".", ",");
                            value = value.replace(" ", "");
-                           double vvd = Double.parseDouble(value);
+                           double vvd = 0;
+                           try {
+                               vvd = Double.parseDouble(value);
+                           }catch (Exception ex){
+                                Log.e("errorNum",ex.toString());
+                           }
                            values.put("roi_years", vvd);
 
 

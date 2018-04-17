@@ -119,6 +119,7 @@ public class TrackMasterNodes extends Activity {
                     valuesT.put("shortname",monedaSelected.shortname);
                     valuesT.put("coin_value",monedaSelected.price);
                     valuesT.put("last_amount",0);
+                    valuesT.put("order_show",9999);
                     valuesT.put("node_cant_coins",monedaSelected.coins_node);
                     ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
                     arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
@@ -225,6 +226,7 @@ public class TrackMasterNodes extends Activity {
             String UrlExpr =arrayTracking.get(listPosition).explorer+arrayTracking.get(listPosition).address;
             respuestas = httpCLient.HttpConnectGet(UrlExpr,null);
 
+
            // Log.e("balance",respuestas);
 
             return null;
@@ -323,22 +325,9 @@ public class TrackMasterNodes extends Activity {
             TextView recovered = (TextView)grid.findViewById(R.id.textView52);
             Button addMore = (Button)grid.findViewById(R.id.button8);
             Button delete = (Button)grid.findViewById(R.id.button9);
-
-            /*final EditText explorerUrl = (EditText)grid.findViewById(R.id.editText3);
-            Button getQr = (Button)grid.findViewById(R.id.button6);
-            final EditText addressWallet = (EditText)grid.findViewById(R.id.editText2);
+            Button reOrderUp = (Button)grid.findViewById(R.id.button20);
 
 
-
-
-            TextView coinbtcText = (TextView)grid.findViewById(R.id.textView48);
-
-
-
-            final EditText newname = (EditText)grid.findViewById(R.id.editText6);
-
-
-            */
 
             final Coin moneda =((Aplicacion)getApplication()).getDB().getCoinByName(arrayTracking.get(position).shortname);
             name.setText(arrayTracking.get(position).name);
@@ -430,63 +419,29 @@ public class TrackMasterNodes extends Activity {
                   }
              });
 
-       /*
-            coinbtcText.setText("BTC: "+moneda.price_btc);
-            mNText.setText("MN: "+moneda.coins_node);
+            reOrderUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(position > 0) {
+                        TrackingN tempold = arrayTracking.get(position);
+                        arrayTracking.set(position,arrayTracking.get(position-1));
+                        arrayTracking.set(position-1,tempold);
+
+                        for(int i=0;i<arrayTracking.size();i++){
+                            ContentValues values = new ContentValues();
+                            values.put("id",arrayTracking.get(i).id);
+                            values.put("order_show",i);
+                            ((Aplicacion)getApplication()).getDB().updateTrackingInfo(values);
+                        }
 
 
 
-
-
-            if(arrayTracking.get(position).extra_name !=null && !arrayTracking.get(position).extra_name.equals("null")) {
-                newname.setText(arrayTracking.get(position).extra_name);
-                name.setText(name.getText().toString()+" "+arrayTracking.get(position).extra_name);
-            }else{
-                newname.setText("");
-                name.setText(name.getText().toString());
-            }
-
-/*
-            explorerUrl.setText(arrayTracking.get(position).explorer);
-            if(arrayTracking.get(position).address != null && !arrayTracking.get(position).address.equals("")) {
-                addressWallet.setText(arrayTracking.get(position).address);
-                if(arrayTracking.get(position).explorer != null && !arrayTracking.get(position).explorer.equals("")){
-                    if(arrayTracking.get(position).firstTime == 0) {
-                        arrayTracking.get(position).firstTime = 1;
-                        new BalanceData(position, loadinCoin).execute();
+                        adapter.notifyDataSetChanged();
                     }
                 }
-            }
-            else
-                addressWallet.setText("");
-            getQr.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    globalPositionSelected = position;
-                    QrScanner(view);
-                }
             });
 
-            if(arrayTracking.get(position).balance != 0){
-                balanceText.setText("Coins: "+((Aplicacion)getApplication()).numberFormat(arrayTracking.get(position).balance));
 
-
-
-            }else{
-                balanceText.setText("Coins: --");
-                balanceUsd.setText("Earn: $ ---");
-                lastValue.setText(" 0 ");
-            }
-
-            saveData.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    monedaSelected = coin;
-
-                }
-            });
-
-            });*/
 
 
 

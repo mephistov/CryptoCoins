@@ -14,6 +14,13 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/button20"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:background="@android:drawable/ic_menu_upload" />
+
     <LinearLayout
         android:id="@+id/alldata"
         android:layout_width="match_parent"
