@@ -44,4 +44,9 @@
     <string name="invested">Invested:</string>
     <string name="balance">Global Balance :</string>
     <string name="wallets">Wallets :</string>
+    <string name="masternodes">MASTER NODES</string>
+    <string name="trackWallets">TRACK WALLETS</string>
+    <string name="globalVal">GLOBAL BALANCE</string>
+    <string name="resumeBalance">Resume Balance</string>
+    <string name="track">Track</string>
 </resources>

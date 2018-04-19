@@ -63,12 +63,12 @@ public class SettingsCoin extends Activity {
                 ContentValues values = new ContentValues();
 
                 String valExp = apiCoin.getText().toString();
-                int serhttp = valExp.indexOf("http");
-                int balanceExp = valExp.indexOf("ext/getbalance");
+              /*  int serhttp = valExp.indexOf("http");
+                int balanceExp = valExp.indexOf("balance");
                 if(serhttp == -1)
                     valExp = "http://"+valExp;
                 if(balanceExp == -1)
-                    valExp += "/ext/getbalance/";
+                    valExp += "/ext/getbalance/";*/
 
                 values.put("explorer",valExp);
                 values.put("name_coin",name.getText().toString());

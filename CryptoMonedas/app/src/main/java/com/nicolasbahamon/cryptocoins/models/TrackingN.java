@@ -16,4 +16,5 @@ public class TrackingN {
     public double mncost;
     public double usd_cost;
     public double lastBalance;
+    public int hasNode;
 }

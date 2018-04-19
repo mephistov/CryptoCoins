@@ -164,8 +164,8 @@ public class Exchange {
             buyprice =0;
             tofillamount = 0;
             double precio = 0;
-            JSONArray buyList = orgerJ.getJSONObject("result").getJSONArray("BuyOrders");
-            JSONArray sellList = orgerJ.getJSONObject("result").getJSONArray("SellOrders");
+            JSONArray sellList = orgerJ.getJSONObject("result").getJSONArray("BuyOrders"); //some thing was wrong jejeje
+            JSONArray  buyList = orgerJ.getJSONObject("result").getJSONArray("SellOrders");
 
              //buy
              for(int i = 0;i< buyList.length();i++){

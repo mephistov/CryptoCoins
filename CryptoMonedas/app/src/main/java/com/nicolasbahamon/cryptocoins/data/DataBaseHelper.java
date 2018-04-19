@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     //database version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     //database name
     private static final String DATABASE_NAME = "CryptoMoney.db";
     //table names
@@ -84,6 +84,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "coin_value REAL," +
             "mn_cost REAL," +
             "usd_cost REAL," +
+            "has_masternode INTEGER,"+
             "node_cant_coins INTEGER)";
 
 
@@ -116,6 +117,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             aquery="UPDATE track_nodes set order_show = id";
             db.execSQL(aquery);
             Log.e("Updated","db v3");
+        }
+        if(oldVersion <=3){
+            String aquery="ALTER TABLE track_nodes ADD COLUMN 'has_masternode' INTEGER;";
+            db.execSQL(aquery);
+            aquery="UPDATE track_nodes set has_masternode = 1";
+            db.execSQL(aquery);
+            Log.e("Updated","db v4");
         }
 
     }
@@ -231,7 +239,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     // *********************** GET ***********************
+    public boolean isTrackedCoin(String shortname) {
+        boolean response = false;
+        SQLiteDatabase db = getReadableDatabase();
+        String query="SELECT * FROM track_nodes WHERE shortname='"+shortname+"'";
+        Cursor c = db.rawQuery(query, null);
+        if (c.moveToFirst()) {
+            response = true;
+        }
 
+        return response;
+    }
 
     public ArrayList<TrackingN> getAllTracking() {
 
@@ -398,6 +416,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         exchange.extra_name = c.getString(c.getColumnIndex("extra_name"));
         exchange.mncost = c.getDouble(c.getColumnIndex("mn_cost"));
         exchange.lastBalance = c.getDouble(c.getColumnIndex("last_amount"));
+        exchange.hasNode = c.getInt(c.getColumnIndex("has_masternode"));
 
         return exchange;
     }
@@ -568,6 +587,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs = { id+"" };
         db.delete("track_nodes", selection, selectionArgs);
     }
+
+
 
 
 

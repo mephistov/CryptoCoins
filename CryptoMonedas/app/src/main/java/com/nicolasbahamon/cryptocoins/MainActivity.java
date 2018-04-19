@@ -2,17 +2,25 @@ package com.nicolasbahamon.cryptocoins;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -32,13 +40,18 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private HttpClient httpCLient;
-    private Button masternode,coins,calculator, trackNodes, settings, closeSettings, polucy, contactus;
+    private Button coins, settings, closeSettings, polucy, contactus;
+    RelativeLayout masternode ,trackNodes, calculator;
     private RelativeLayout loadingFirst;
     private TextView updating,textViewBTCVALUE, versionTxt;
     private LinearLayout menuZone;
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private AdView mAdView;
+
+    private ArrayList<Coin> coinsArray;
+    private CoinsAdapter adapter;
+    private ListView listCoins;
 
 
     @Override
@@ -73,6 +86,8 @@ public class MainActivity extends Activity {
         polucy = (Button)findViewById(R.id.button16);
         contactus = (Button)findViewById(R.id.button17);
 
+        listCoins = (ListView)findViewById(R.id.favoritesCoinList);
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +118,7 @@ public class MainActivity extends Activity {
 
         versionTxt.setText("Ver: "+version);
 
-        textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
+       // textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
 
         if(((Aplicacion) getApplication()).diskData.getBoolean("first",true)) {
             loadingFirst.setVisibility(View.VISIBLE);
@@ -111,10 +126,10 @@ public class MainActivity extends Activity {
         }
         startAllData();
 
-        masternode = (Button)findViewById(R.id.button);
-        trackNodes = (Button)findViewById(R.id.button4);
-        calculator = (Button)findViewById(R.id.button3);
-        Button allcoinfInfo = (Button)findViewById(R.id.button2);
+        masternode = (RelativeLayout)findViewById(R.id.btnMN);
+        trackNodes = (RelativeLayout) findViewById(R.id.trackBtn);
+        calculator = (RelativeLayout)findViewById(R.id.button3);
+        RelativeLayout allcoinfInfo = (RelativeLayout)findViewById(R.id.coinsBtn);
 
 
         masternode.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +157,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        coinsArray = ((Aplicacion) getApplication()).getDB().sortGeneric();
+        listCoins = (ListView)findViewById(R.id.favoritesCoinList);
+        adapter = new CoinsAdapter(getApplicationContext());
+        listCoins.setAdapter(adapter);
 
 
     }
@@ -200,7 +219,8 @@ public class MainActivity extends Activity {
                         ((Aplicacion) getApplication()).diskEditor.putBoolean("first",false).commit();
                         updating.setText(R.string.updated);
                         updating.setBackgroundColor(Color.GREEN);
-                        textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
+                       // textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
+                        adapter.notifyDataSetChanged();
                     }
                 });
 
@@ -472,6 +492,73 @@ public class MainActivity extends Activity {
 
 
         return myresult;
+    }
+
+    public class CoinsAdapter extends BaseAdapter {
+
+        private Context MyContext;
+        private int page = 2;
+
+
+        public CoinsAdapter(Context context){
+            MyContext = context;
+
+        }
+
+        private void addBTC(){
+           coinsArray.add( ((Aplicacion) getApplication()).getDB().getCoinByName("BTC"));
+        }
+
+
+        @Override
+        public int getCount() {
+
+            //pre add Bitcoin if not added
+            if(coinsArray.size() == 0){
+                addBTC();
+            }else if(!coinsArray.get(0).shortname.equals("BTC")){
+                addBTC();
+            }
+
+            return coinsArray.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            View grid;
+
+            if (convertView == null) {
+                grid = new View(MyContext);
+                LayoutInflater inflater = (LayoutInflater)MyContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                grid = inflater.inflate(R.layout.row_coins_man_fav, parent, false);
+
+            } else {
+                grid = (View) convertView;
+            }
+
+            TextView name = (TextView)grid.findViewById(R.id.textView91);
+            ImageView logo = (ImageView)grid.findViewById(R.id.imageView11);
+
+            name.setText("$ "+coinsArray.get(position).price+" USD");
+            Glide.with(getApplicationContext())
+                    .load(coinsArray.get(position).logo)
+                    .into(logo);
+
+
+            return grid;
+        }
     }
 
 

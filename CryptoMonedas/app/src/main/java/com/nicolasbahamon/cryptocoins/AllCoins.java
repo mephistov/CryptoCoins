@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -151,6 +152,7 @@ public class AllCoins extends Activity {
             TextView change24h = (TextView)grid.findViewById(R.id.textView66);
             TextView change7d = (TextView)grid.findViewById(R.id.textView65);
             final Button favBtc = (Button)grid.findViewById(R.id.button11);
+            final CheckBox trackCoin = (CheckBox)grid.findViewById(R.id.checkBox3);
 
 
             name.setText(coins.get(position).name);
@@ -204,6 +206,37 @@ public class AllCoins extends Activity {
                         favBtc.setBackgroundResource(R.mipmap.heart_f);
                     }
 
+                }
+            });
+
+            final boolean isTraked = ((Aplicacion)getApplication()).getDB().isTrackedCoin(coins.get(position).shortname);
+
+            if(isTraked)
+                trackCoin.setChecked(true);
+            else
+                trackCoin.setChecked(false);
+
+            trackCoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!isTraked){
+                        ContentValues values = new ContentValues();
+                        values.put("shortname",coins.get(position).shortname);
+                        values.put("track_node",1);
+                        coins.get(position).track_node = 1;
+                        ((Aplicacion)getApplication()).getDB().updateCoinInfo(values);
+                        ContentValues valuesT = new ContentValues();
+                        valuesT.put("id_coin",coins.get(position).idCoin);
+                        valuesT.put("name_coin",coins.get(position).name);
+                        valuesT.put("shortname",coins.get(position).shortname);
+                        valuesT.put("coin_value",coins.get(position).price);
+                        valuesT.put("last_amount",0);
+                        valuesT.put("has_masternode",0);
+                        valuesT.put("node_cant_coins",coins.get(position).coins_node);
+                        ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "You can remove it on track zone", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 

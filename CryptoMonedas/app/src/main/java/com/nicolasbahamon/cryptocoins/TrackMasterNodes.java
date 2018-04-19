@@ -326,6 +326,7 @@ public class TrackMasterNodes extends Activity {
             Button addMore = (Button)grid.findViewById(R.id.button8);
             Button delete = (Button)grid.findViewById(R.id.button9);
             Button reOrderUp = (Button)grid.findViewById(R.id.button20);
+            LinearLayout MNZone= (LinearLayout)grid.findViewById(R.id.masternodeZone);
 
 
 
@@ -441,7 +442,11 @@ public class TrackMasterNodes extends Activity {
                 }
             });
 
-
+            if(arrayTracking.get(position).hasNode == 1){
+                MNZone.setVisibility(View.VISIBLE);
+            }else{
+                MNZone.setVisibility(View.GONE);
+            }
 
 
 
