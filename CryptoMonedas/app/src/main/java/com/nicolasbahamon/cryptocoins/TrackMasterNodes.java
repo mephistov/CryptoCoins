@@ -107,7 +107,7 @@ public class TrackMasterNodes extends Activity {
 
         valor = this;
 
-        new RedeemTask().execute();
+
 
         acept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +120,7 @@ public class TrackMasterNodes extends Activity {
                     valuesT.put("coin_value",monedaSelected.price);
                     valuesT.put("last_amount",0);
                     valuesT.put("order_show",9999);
+                    valuesT.put("has_masternode",arrayTracking.get(positionSelected).hasNode);
                     valuesT.put("node_cant_coins",monedaSelected.coins_node);
                     ((Aplicacion)getApplication()).getDB().insertTracking(valuesT);
                     arrayTracking = ((Aplicacion)getApplication()).getDB().getAllTracking();
@@ -155,54 +156,7 @@ public class TrackMasterNodes extends Activity {
 
 
 
-    // ******** background task ******
 
-    private class RedeemTask extends AsyncTask<Void, Void, Void> {
-
-        private String respuestas;
-
-        @Override
-        protected void onPreExecute() {
-            loading1.setVisibility(View.VISIBLE);
-
-        }
-
-        protected Void doInBackground(Void... bounds) {
-
-
-            respuestas = httpCLient.HttpConnectGet("http://190.26.134.117/cryptocoins/explorer.json",null);//190.26.134.117/cryptocoins/explorer.json
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            loading1.setVisibility(View.GONE);
-            if(respuestas != null) {
-                try {
-                    JSONObject expData = new JSONObject(respuestas);
-                    for (int i = 0; i < arrayTracking.size(); i++) {
-                        try {
-                            JSONObject cointemp = expData.getJSONObject(arrayTracking.get(i).shortname);
-                            arrayTracking.get(i).explorer = cointemp.getString("explor");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    adapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-
-        }
-
-
-    }
 
     private class BalanceData extends AsyncTask<Void, Void, Void> {
 
@@ -328,7 +282,7 @@ public class TrackMasterNodes extends Activity {
             Button reOrderUp = (Button)grid.findViewById(R.id.button20);
             LinearLayout MNZone= (LinearLayout)grid.findViewById(R.id.masternodeZone);
 
-
+            loadinCoin.setVisibility(View.GONE);
 
             final Coin moneda =((Aplicacion)getApplication()).getDB().getCoinByName(arrayTracking.get(position).shortname);
             name.setText(arrayTracking.get(position).name);
@@ -357,7 +311,44 @@ public class TrackMasterNodes extends Activity {
                    notice.setVisibility(View.GONE);
                    if(arrayTracking.get(position).firstTime == 0) {
                        arrayTracking.get(position).firstTime = 1;
-                       new BalanceData(position, loadinCoin).execute();
+                       loadinCoin.setVisibility(View.VISIBLE);
+                       (new Thread() {
+                           public void run() {//llamar rewards cada vez que entra
+
+
+                                String UrlExpr =arrayTracking.get(position).explorer+arrayTracking.get(position).address;
+                               final String respuestas = httpCLient.HttpConnectGet(UrlExpr,null);
+
+
+                               runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                         if(respuestas != null) {
+                                           try{
+                                               double balnce = Double.parseDouble(respuestas);
+                                               double lastBalance = arrayTracking.get(position).balance;
+                                               arrayTracking.get(position).balance = balnce;
+
+                                               ContentValues values = new ContentValues();
+
+                                               values.put("current_amount",balnce);
+                                               values.put("last_amount",lastBalance);
+                                               values.put("id",arrayTracking.get(position).id);
+                                               ((Aplicacion)getApplication()).getDB().updateTrackingInfo(values);
+
+                                               adapter.notifyDataSetChanged();
+                                           }catch (Exception ex){
+                                               Toast.makeText(getApplicationContext(),"Error: "+ex.toString(),Toast.LENGTH_LONG).show();
+                                           }
+                                       }
+                                       loadinCoin.setVisibility(View.GONE);
+                                   }
+                               });
+
+                           }
+
+                       }).start();
+                       //new BalanceData(position, loadinCoin).execute();
                    }
                 }
             }

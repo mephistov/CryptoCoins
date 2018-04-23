@@ -49,4 +49,5 @@
     <string name="globalVal">GLOBAL BALANCE</string>
     <string name="resumeBalance">Resume Balance</string>
     <string name="track">Track</string>
+    <string name="mnquestion">is a master Node?</string>
 </resources>

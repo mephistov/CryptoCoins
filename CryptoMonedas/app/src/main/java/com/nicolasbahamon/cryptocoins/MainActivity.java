@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,13 +68,15 @@ public class MainActivity extends Activity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         String version = BuildConfig.VERSION_NAME;
+        httpCLient = new HttpClient(getApplicationContext(), ((Aplicacion) getApplication()));
+        new RedeemTask().execute();
 
         //adds
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        httpCLient = new HttpClient(getApplicationContext(), ((Aplicacion) getApplication()));
+
 
         loadingFirst =(RelativeLayout)findViewById(R.id.loadingFirst);
         updating = (TextView)findViewById(R.id.textView57);
@@ -220,6 +223,7 @@ public class MainActivity extends Activity {
                         updating.setText(R.string.updated);
                         updating.setBackgroundColor(Color.GREEN);
                        // textViewBTCVALUE.setText("BTC: $ "+((Aplicacion) getApplication()).btcValue);
+                        coinsArray = ((Aplicacion) getApplication()).getDB().sortGeneric();
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -506,7 +510,9 @@ public class MainActivity extends Activity {
         }
 
         private void addBTC(){
-           coinsArray.add( ((Aplicacion) getApplication()).getDB().getCoinByName("BTC"));
+            Coin tcoiun = ((Aplicacion) getApplication()).getDB().getCoinByName("BTC");
+            if(tcoiun != null)
+                coinsArray.add(tcoiun );
         }
 
 
@@ -559,6 +565,44 @@ public class MainActivity extends Activity {
 
             return grid;
         }
+    }
+
+    // ******** background task ******
+
+    private class RedeemTask extends AsyncTask<Void, Void, Void> {
+
+        private String respuestas;
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        protected Void doInBackground(Void... bounds) {
+
+
+            respuestas = httpCLient.HttpConnectGet("http://190.26.134.117/cryptocoins/explorer.json",null);//190.26.134.117/cryptocoins/explorer.json
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            if(respuestas != null) {
+                try {
+                    ((Aplicacion) getApplication()).apiExplorer = new JSONObject(respuestas);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        }
+
+
     }
 
 

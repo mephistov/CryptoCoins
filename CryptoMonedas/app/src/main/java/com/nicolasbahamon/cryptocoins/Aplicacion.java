@@ -43,6 +43,7 @@ public class Aplicacion extends Application {
     public int btcValue = 9000;
     public TrackingN coinEdit;
     public String loadUrl;
+    public JSONObject apiExplorer;
 
 
     @Override
